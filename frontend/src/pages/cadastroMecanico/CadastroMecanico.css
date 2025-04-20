@@ -1,0 +1,107 @@
+.cadastro-mecanico-container {
+  padding-top: 100px;
+  text-align: center;
+  }
+
+.cadastro-mecanico-container h1 {
+  margin-bottom: 40px;
+}
+
+
+.cadastro-mecanico-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0rem 1rem;
+}
+
+.buscar-mecanico{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 700px;
+}
+.buscar-mecanico button{
+    height: 50px;
+    width:30%;
+}
+
+.cadastro-mecanico-buscar{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+
+
+.cadastro-mecanico-buscar > button{
+    height: 50px;
+    width: 40%;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.mecanico-table {
+    margin-top: 20px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.mecanico-table table {
+    width: 100%;
+    border-collapse: collapse; /* Modificado de 'collapse' para 'separate' */
+    border-spacing: 0; /* Opcional: pode remover o espaço entre as células */
+    
+}
+
+
+.mecanico-table th,
+.mecanico-table td {
+    padding: 10px;
+    border: 2px solid var(--third-color);
+}
+
+.mecanico-table th {
+    background-color: var(--secondary-color); /* Cor de fundo dos cabeçalhos */
+    font-weight: 800;
+}
+
+.mecanico-table tr:nth-child(even) {
+    background-color: #EAEAEA; /* Alterna a cor de fundo das linhas pares */
+}
+
+.mecanico-table tr:hover {
+    background-color: #d0cece; /* Cor de fundo ao passar o mouse */
+    transition: all 0.3s ease;
+}
+.coluna-edit button{
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+.edit{
+    color: var(--text-color);
+    
+}
+.edit:hover{
+    color: var(--primary-color);
+    transition: color ease 0.3s;
+}
+
+
+
+@media (width <= 1280px) {
+   
+   
+  
+    .mecanico-table th,
+    .mecanico-table td {
+      font-size: 14px;
+      padding: 8px;
+  }}

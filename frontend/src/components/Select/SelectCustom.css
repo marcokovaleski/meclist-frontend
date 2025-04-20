@@ -1,0 +1,22 @@
+select {
+    padding: 10px;
+    border: 2px solid var(--third-color);
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    cursor: pointer;
+    height: 40px;
+    transition: border-color 0.3s ease;
+    margin: 1rem 0rem;
+  }
+  
+  select:hover {
+    border-color: var(--secondary-color);
+  }
+  
+  select:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+  }

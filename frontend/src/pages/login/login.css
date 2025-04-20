@@ -1,0 +1,139 @@
+.login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+   
+}
+
+.login-container {
+    display: flex;
+    margin: auto 0;
+    border: solid var(--third-color) 2px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 100%; 
+    max-width: 900px;
+    height: 70%; 
+}
+
+
+.login-box {
+    width: 50%;
+    gap: 2rem;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #EAEAEA;
+    border-radius: 8px 0 0px 8px;
+}
+
+.login-box header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: start;
+    width: 100%;
+    
+}
+
+.login-box header h3 {
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+.login-box header p {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-color);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.info-box {
+    width: 50%;
+    min-height: 100%;
+    padding: 3rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: var(--primary-color);
+    border-radius: 0px 8px 8px 0px;
+    
+}
+
+hr {
+    width: 100%;
+    height: 1px;
+    background-color: #A6A6A6;
+    border: none;
+}
+
+
+
+/* Link de "Esqueceu a senha?" */
+.forgot-password {
+    margin-top: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    color: var(--primary-color);
+}
+
+.logo {
+    width: 215px;
+    height: 33px;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.error{
+    color: var(--primary-color);
+    font-size: 12px;
+    font-weight: 300;
+    margin: 10px;
+}
+
+.info-header{
+    margin-bottom: 5rem;
+}
+.info-header h2{
+    font-size: 30px;
+    color: #ffffff;
+    font-weight: 400;
+}
+.info-header span{
+    font-size: 35px;
+    color: #000000;
+    font-weight: 800;
+}
+
+.info-list ul{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: #ffffff;
+}
+.info-list li{
+    display: flex;
+    gap: 0.5rem;
+}
+
+.info-list p{
+    font-size: 20px;
+    font-weight: 300;
+    color: #ffffff;
+}
