@@ -6,10 +6,11 @@ type InputProps = {
     value: string | number;
     type: 'text' | 'number' | 'email' | 'password';
     name: string;
+    required?: boolean;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const InputCustom = ({ label, placeholder, type: inputType, onChange, name, value }: InputProps) => (
+const InputCustom = ({ label, placeholder, type: inputType, onChange, name, value , required}: InputProps) => (
     <div className="input-container">
         {label && <label htmlFor={name}>{label}</label>}
         <input
@@ -19,6 +20,7 @@ const InputCustom = ({ label, placeholder, type: inputType, onChange, name, valu
             id={name}
             value={value}
             onChange={onChange}
+            required={required}
         />
     </div>
 );

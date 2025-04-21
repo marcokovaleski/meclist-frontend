@@ -4,7 +4,7 @@ import Dashboard from "../pages/dashboard/Dashboard";
 import CadastroCliente from "../pages/cadastroCliente/CadastroCliente";
 import CadastroMecanico from "../pages/cadastroMecanico/CadastroMecanico";
 import PrivateRoute from "../PrivateRoute";
-import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
+import AuthenticatedLayout from "../layouts/AuthenticatedLayout/AuthenticatedLayout";
 
 export function AppRoutes() {
   return (

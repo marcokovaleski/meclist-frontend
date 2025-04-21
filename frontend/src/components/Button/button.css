@@ -1,15 +1,24 @@
-.btn-primary {
+.btn-primary,
+.btn-secondary {
     width: 100%;
-    background: var(--primary-color);
-    color: var(--light-text-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; /* espaçamento entre ícone e texto */
     font-weight: var(--fw-bold);
     font-size: var(--fs-sm);
     padding-block: 0.5rem;
     padding-inline: 1.5rem;
     border-radius: 0.4rem;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* --- PRIMARY --- */
+.btn-primary {
+    background: var(--primary-color);
+    color: var(--light-text-color);
     border: solid transparent 0.15rem;
-    transition: ease-in-out 0.3s;
 }
 
 .btn-primary:hover {
@@ -18,22 +27,62 @@
     border-color: var(--primary-color);
 }
 
+/* --- SECONDARY --- */
 .btn-secondary {
-    width: 100%;
-    background: transparent;
-    color: var(--primary-color);
-    font-weight: var(--fw-bold);
-    font-size: var(--fs-sm);
-    padding-block: 0.5rem;
-    padding-inline: 1.5rem;
+    background: var(--primary-color);
+    color: var(--light-text-color);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Fundo padrão (cor primária) */
+.btn-secondary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--primary-color);
     border-radius: 0.4rem;
-    cursor: pointer;
-    border: solid var(--primary-color) 0.15rem;
-    transition: ease-in-out 0.4s;
+    z-index: -2;
+}
+
+/* Efeito no hover vindo da lateral */
+.btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: color-mix(in srgb, var(--primary-color) 85%, black); /* tom mais escuro */
+    transition: width 0.3s ease-in-out;
+    border-radius: 0.4rem;
+    z-index: -1;
+}
+
+.btn-secondary:hover::before {
+    width: 100%;
 }
 
 .btn-secondary:hover {
-    background: var(--primary-color);
     color: var(--light-text-color);
-    border-color: transparent;
+}
+
+/* --- Ícones --- */
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-icon.left {
+    margin-right: 0.25rem;
+}
+
+.btn-icon.right {
+    margin-left: 0.25rem;
+}
+
+.btn-text {
+    display: inline-block;
 }

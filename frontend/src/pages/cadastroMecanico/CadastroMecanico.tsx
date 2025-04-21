@@ -4,8 +4,9 @@ import { tMecanico } from "../../types/Mecanico";
 import InputCustom from "../../components/InputCustom/InputCustom";
 import Button from "../../components/Button/Button";
 import { SelectCustom } from "../../components/Select/SelectCustom";
-import { Pencil } from 'lucide-react';
-
+import { Pencil, UserPlus } from 'lucide-react';
+import Loading from "../../components/Loading/Loading";
+import ModalCadastroMecanico from "../../components/CadastroDeMecanico/ModalCadastroMecanico";
 
 export default function CadastroMecanico() {
     const [mecanicos, setMecanicos] = useState<tMecanico[]>([]);
@@ -15,12 +16,13 @@ export default function CadastroMecanico() {
         { label: "Todos", value: "todos" },
         { label: "Ativo", value: "ativo" },
         { label: "Inativo", value: "inativo" },
-      ];
-      const [filtro,setFiltro]= useState("Todos");
+    ];
+    const [filtro, setFiltro] = useState("Todos");
+    const [modalOpen, setModalOpen] = useState(false);
 
     const bucarMecanicos = async () => {
         try {
-            const response = await fetch("http://localhost:8080/mecanico");
+            const response = await fetch("http://localhost:8080/mecanicos");
             if (!response.ok) {
                 throw new Error("Erro ao buscar mecânicos");
             }
@@ -44,7 +46,7 @@ export default function CadastroMecanico() {
 
 
     if (loading) {
-        return <div className="loading">Carregando...</div>;
+        return <Loading />;
     }
 
     if (error) {
@@ -54,18 +56,18 @@ export default function CadastroMecanico() {
         <div className="cadastro-mecanico-container">
             <h1>Cadastro de Mecânicos</h1>
             <section className="cadastro-mecanico-header">
-            <SelectCustom options={statusOptions} value={filtro} onChange={setFiltro} />
-            <div className="cadastro-mecanico-buscar">
-            <Button text="Cadastrar mecânico"   />
-                <div className="buscar-mecanico">
-                <InputCustom name="buscar" value="" onChange={() => {}} type="text" placeholder="Buscar mecânico" />
-                <Button text="Buscar"   />
+                <SelectCustom options={statusOptions} value={filtro} onChange={setFiltro} />
+                <div className="cadastro-mecanico-buscar">
+                    <Button text="Cadastrar mecânico" icon={<UserPlus />} iconPosition="left" secondary onClick={() => setModalOpen(true)} />
+                    <div className="buscar-mecanico">
+                        <InputCustom name="buscar" value="" onChange={() => { }} type="text" placeholder="Buscar mecânico" />
+                        <Button text="Buscar" />
+                    </div>
                 </div>
-            </div>
             </section>
-            
+
             <div className="mecanico-table">
-                
+
                 <table>
                     <thead>
                         <tr>
@@ -88,7 +90,7 @@ export default function CadastroMecanico() {
                                     <td>{mecanico.situacao.charAt(0).toUpperCase() + mecanico.situacao.slice(1).toLowerCase()}</td>
                                     <td className="coluna-edit">
                                         <button>
-                                            <Pencil className="edit"/>
+                                            <Pencil className="edit" />
                                         </button>
                                     </td>
                                 </tr>
@@ -101,6 +103,17 @@ export default function CadastroMecanico() {
                     </tbody>
                 </table>
             </div>
+            {modalOpen && (
+                <ModalCadastroMecanico
+                    isOpen={modalOpen}
+                    onClose={() => {setModalOpen(false)}}
+                    onSucess={() => {
+                        bucarMecanicos();
+                        setModalOpen(false); 
+                    }}
+                />
+
+            )}
 
         </div>
     );

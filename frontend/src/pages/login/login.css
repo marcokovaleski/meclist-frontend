@@ -46,7 +46,7 @@
 
 .login-box header p {
     font-size: 13px;
-    font-weight: 300;
+    font-weight: 400;
     color: var(--text-color);
 }
 
@@ -103,7 +103,7 @@ hr {
 .error{
     color: var(--primary-color);
     font-size: 12px;
-    font-weight: 300;
+    font-weight: 400;
     margin: 10px;
 }
 

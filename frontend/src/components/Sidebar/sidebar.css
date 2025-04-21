@@ -1,3 +1,4 @@
+/* ----- ESTILO GERAL DA SIDEBAR ----- */
 .sidebar {
   width: 260px;
   height: 100vh;
@@ -7,6 +8,9 @@
   flex-direction: column;
   transition: width 0.3s ease;
   overflow: hidden;
+  border-radius: 0px 8px 8px 0px;
+  border-right: 2px solid var(--third-color);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar--closed {
@@ -17,12 +21,14 @@
   padding: 10px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-start; 
 }
 
+/* ----- LOGO ----- */
 .sidebar-logo {
   transition: all 0.8s ease;
   height: 30px;
+  width: auto;
 }
 
 .logo-mini {
@@ -30,7 +36,13 @@
   opacity: 0.9;
 }
 
+.sidebar-logo-mini {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffad66;
+}
 
+/* ----- BOTÃO TOGGLE (SEM HOVER) ----- */
 .sidebar-toggle {
   display: flex;
   align-items: center;
@@ -42,24 +54,19 @@
   padding: 0;
 }
 
-.sidebar-logo {
-  height: 30px;
-  width: auto;
-  transition: ease 0.3s;
+/* Remover hover do toggle */
+.sidebar-toggle:hover {
+  background-color: transparent;
 }
 
-.sidebar-logo-mini {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #ffad66;
-}
-
+/* Ícone da seta */
 .sidebar-chevron {
   font-size: 30px;
   display: flex;
   align-items: center;
 }
 
+/* ----- MENU PRINCIPAL ----- */
 .sidebar-menu {
   display: flex;
   flex-direction: column;
@@ -67,9 +74,9 @@
   gap: 0.5rem;
 }
 
-
-
-.sidebar button {
+.sidebar-menu button,
+.sidebar-submenu button,
+.sidebar-footer button {
   background: none;
   display: flex;
   align-items: center;
@@ -81,13 +88,16 @@
   font-size: 1.1rem;
   border-radius: 4px;
   cursor: pointer;
-  transition: color 0.4s ease;
+  transition: all 0.3s ease;
 }
 
-.sidebar button:hover {
-  color: var(--primary-color);
+.sidebar-menu button:hover,
+.sidebar-submenu button:hover,
+.sidebar-footer button:hover {
+  background-color: #444;
 }
 
+/* ----- SUBMENU ----- */
 .sidebar-group {
   display: flex;
   flex-direction: column;
@@ -99,6 +109,8 @@
   flex-direction: column;
   gap: 0.4rem;
   padding-top: 0.3rem;
+  transition: max-height 0.3s ease;
+  overflow: hidden;
 }
 
 .sidebar-submenu button {
@@ -106,10 +118,7 @@
   color: #ccc;
 }
 
-.sidebar-submenu button:hover {
-  color: var(--primary-color);
-}
-
+/* ----- FOOTER ----- */
 .sidebar-footer {
   margin-top: auto;
   padding: 1rem;
@@ -120,32 +129,16 @@
   gap: 0.5rem;
 }
 
-
 .sidebar-footer button {
-  background: none;
-  border: none;
-  color: #fff;
-  padding: 0.5rem 0.8rem;
-  text-align: left;
   font-size: 14px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: color 0.4s ease;
 }
 
 .sidebar-logout {
-
   font-weight: bold;
 }
 
-
-
+/* Esconde conteúdo no modo fechado */
 .sidebar--closed .sidebar-menu,
 .sidebar--closed .sidebar-footer {
   display: none;
-}
-
-.sidebar-submenu {
-  transition: max-height 0.3s ease;
-  overflow: hidden;
 }
