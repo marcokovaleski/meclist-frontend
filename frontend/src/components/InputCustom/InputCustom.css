@@ -1,6 +1,6 @@
 .input-container {
     position: relative;
-    margin: 1rem 0;
+    margin: 10px 0;
     width: 100%;
 }
 
@@ -18,3 +18,10 @@
     color: var(--third-color);
     font-size: 0.9rem;
 }
+.input-error {
+    color: red;
+    font-size: 0.75rem;
+    margin-top: 4px;
+    display: block;
+  }
+  

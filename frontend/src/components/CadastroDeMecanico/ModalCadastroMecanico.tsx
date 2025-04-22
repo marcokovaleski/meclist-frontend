@@ -21,51 +21,75 @@ export default function ModalCadastroMecanico({ isOpen, onClose, onSucess}: Cada
     cpf: '',
   });
   const [confirmarSenha, setConfirmarSenha] = useState('');
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+
+  function limparMascara(valor: string) {
+    return valor.replace(/\D/g, "");
+  }
+
+  
+  
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
+  
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.senha !== confirmarSenha) {
-      setError("As senhas não coincidem");
+      setErrors({confirmarSenha: "As senhas não coincidem"});
       return;
     }
+
+    const cleanedData = {
+      ...formData,
+      cpf: limparMascara(formData.cpf), // remove tudo que não for número
+      telefone: limparMascara(formData.telefone), // remove tudo que não for número
+    };
+  
     try {
       const response = await fetch('http://localhost:8080/mecanicos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(cleanedData),
       });
       const data = await response.json();
       console.log(data);
-      if (!response.ok) throw new Error(data.message || "Erro ao realizar cadastro");
+      if (!response.ok) {
+        if (data.errors) {
+          setErrors(data.errors);
+        } else {
+          setErrors({ geral: data.message || "Erro ao realizar cadastro" });
+        }
+        return;
+      }
       alert(data.message);
       onSucess?.();
     } catch (error) {
-        if (error instanceof Error) {
-            console.error("Erro:", error.message);
-            setError(error.message);
-        } else {
-            console.error("Erro desconhecido:", error);
-            setError("Erro de conexão. Tente novamente.");
-        }
+      if (error instanceof Error) {
+        console.error("Erro:", error.message);
+        setErrors({ geral: error.message });
+      } else {
+        console.error("Erro desconhecido:", error);
+        setErrors({ geral: "Erro de conexão. Tente novamente." });
+      }
     }
+    
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} header="Cadastro de Mecânico" >
       <form onSubmit={handleSubmit}>
-        <InputCustom label="Nome" type="text" name="nome" value={formData.nome} onChange={handleFormChange} required />
-        <InputCustom label="CPF" type="text" name="cpf" value={formData.cpf} onChange={handleFormChange} required />
-        <InputCustom label="Telefone" type="text" name="telefone" value={formData.telefone} onChange={handleFormChange} required />
-        <InputCustom label="Email" type="email" name="email" value={formData.email} onChange={handleFormChange} required />
-        <InputCustom label="Senha" type="password" name="senha" value={formData.senha} onChange={handleFormChange} required />
-        <InputCustom label="Confirmar Senha" type="password" name="confirmarSenha" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} required />
-        {error && <p className="error">{error}</p>}
+      <InputCustom label="Nome" name="nome" type="text" value={formData.nome} onChange={handleFormChange} required error={errors.nome}  placeholder="Nome completo"/>
+<InputCustom label="CPF" name="cpf" type="text" mask="cpf" placeholder="000.000.000-00" value={formData.cpf} onChange={handleFormChange} required error={errors.cpf} />
+<InputCustom label="Telefone" name="telefone" type="text" mask="phone" value={formData.telefone} onChange={handleFormChange} required error={errors.telefone} placeholder="(00) 00000-0000" />
+<InputCustom label="Email" name="email" type="email" value={formData.email} onChange={handleFormChange} required error={errors.email} placeholder="Digite o e-mail" />
+<InputCustom label="Senha" name="senha" type="password" value={formData.senha} onChange={handleFormChange} required error={errors.senha} placeholder="Digite a senha" />
+<InputCustom label="Confirmar Senha" name="confirmarSenha" type="password" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} required error={errors.confirmarSenha}  placeholder="Confirme a senha"/>
+        {errors.geral && <p className="error">{errors.geral}</p>}
+        
         <div className="form-buttons">
           
           <button type="button" onClick={onClose}>Cancelar</button>

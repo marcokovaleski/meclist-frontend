@@ -12,12 +12,12 @@ form {
 }
 
   
-  .error {
-    color: #dc2626;
-    font-size: 0.875rem;
-    margin-top: -0.5rem;
-    margin-bottom: 1rem;
-  }
+.error {
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 4px;
+  display: block;
+}
   
   .form-buttons {
     display: flex;

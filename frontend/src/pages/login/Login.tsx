@@ -32,7 +32,7 @@ function Login() {
 
         // Envia uma requisição de login para o backend
         try {
-            const response = await fetch("http://localhost:8080/adm/login", {
+            const response = await fetch("http://localhost:8080/adms/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
