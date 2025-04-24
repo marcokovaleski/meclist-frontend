@@ -11,7 +11,7 @@ import cadastro from "../../assets/cadastro.svg";
 import configuracoes from "../../assets/configuracoes.svg";
 import userSvg from "../../assets/user.svg";
 import suporte from "../../assets/suporte.svg";
-import logoutSvg from "../../assets/logout.svg";
+import logoutSvg from "../../assets/Logout.svg";
 import setaLabelBaixo from "../../assets/setaLabelBaixo.svg";
 import setaLabelLado from "../../assets/setaLabelLado.svg";
 
