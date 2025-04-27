@@ -1,8 +1,9 @@
 type situacao = "ATIVO" | "INATIVO";
-//mecanico que vem do banco de dados
-export type tMecanico = {
+//cliente que vem do banco de dados
+export type tCliente = {
     id: number;
     nome: string;
+    veiculos: number;
     cpf: string;
     telefone: string;
     email: string;
@@ -10,10 +11,11 @@ export type tMecanico = {
 };
 
 
-export type tMecanicoCadastro = {
+export type tClienteCadastro = {
     nome: string;
     cpf: string;
     telefone: string;
     email: string;
+    endereco: string;
     senha: string;
 }
