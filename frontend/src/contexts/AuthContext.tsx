@@ -8,13 +8,13 @@ import {
   
   // Definindo o tipo de dados decodificados do token JWT
   interface DecodedToken {
-    sub: string;       // E-mail (ex: gabriel@meclist.com)
-    id: number;        // ID do usuário
-    nome: string;      // Nome do usuário (ex: Gabriel Wrubel)
-    role: string;      // Papel do usuário (ex: ADMIN)
-    email: string;     // E-mail do usuário
-    iat: number;       // Emitido em (timestamp)
-    exp: number;       // Expiração do token (timestamp)
+    sub: string;      
+    id: number;        
+    nome: string;      
+    role: string;      
+    email: string;     
+    iat: number;       
+    exp: number;       
   }
   
   // Interface com os dados e métodos disponíveis no contexto
