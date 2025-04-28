@@ -4,7 +4,8 @@ import InputCustom from "../InputCustom/InputCustom";
 import Modal from "../../layouts/Modal/Modal";
 import Button from "../Button/Button";
 import "./ModalCadastroMecanico.css";
-
+import { showSuccessToast, showErrorToast } from "../../utils/toast";
+import { limparMascara} from "../../utils/maskUtils";
 
 interface CadastroDeMecanicoProps {
   isOpen: boolean;
@@ -24,9 +25,7 @@ export default function ModalCadastroMecanico({ isOpen, onClose, onSucess }: Cad
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
 
-  function limparMascara(valor: string) {
-    return valor.replace(/\D/g, "");
-  }
+
 
 
 
@@ -40,6 +39,7 @@ export default function ModalCadastroMecanico({ isOpen, onClose, onSucess }: Cad
     e.preventDefault();
     if (formData.senha !== confirmarSenha) {
       setErrors({ confirmarSenha: "As senhas não coincidem" });
+      showErrorToast("As senhas não coincidem");
       return;
     }
 
@@ -60,23 +60,28 @@ export default function ModalCadastroMecanico({ isOpen, onClose, onSucess }: Cad
       if (!response.ok) {
         if (data.errors) {
           setErrors(data.errors);
+          showErrorToast("Erro ao validar os campos. Verifique e tente novamente.");
         } else {
           setErrors({ geral: data.message || "Erro ao realizar cadastro" });
+          showErrorToast(data.message || "Erro ao realizar cadastro.");
         }
         return;
       }
-      alert(data.message);
+      
+      showSuccessToast(data.message);
       onSucess?.();
     } catch (error) {
       if (error instanceof Error) {
         console.error("Erro:", error.message);
         setErrors({ geral: error.message });
+        showErrorToast(error.message);
       } else {
         console.error("Erro desconhecido:", error);
         setErrors({ geral: "Erro de conexão. Tente novamente." });
+        showErrorToast("Erro de conexão. Tente novamente.");
       }
     }
-
+    
   };
 
   return (

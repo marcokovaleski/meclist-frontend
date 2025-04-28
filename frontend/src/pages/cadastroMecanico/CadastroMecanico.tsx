@@ -7,22 +7,31 @@ import { SelectCustom } from "../../components/Select/SelectCustom";
 import { Pencil, UserPlus } from 'lucide-react';
 import Loading from "../../components/Loading/Loading";
 import ModalCadastroMecanico from "../../components/CadastroDeMecanico/ModalCadastroMecanico";
-
+import ModalEditarMecanico from "../../components/EditarMecanico/ModalEditarMecanico";
 export default function CadastroMecanico() {
     const [mecanicos, setMecanicos] = useState<tMecanico[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [filtro, setFiltro] = useState("Todos");
+    const [buscarTexto, setBuscarTexto] = useState(""); // <- novo state para busca
+    const [modalCadastroOpen, setModalCadastroOpen] = useState(false);
+    const [modalEditarOpen, setModalEditarOpen] = useState(false);
+    const [mecanicoSelecionado, setMecanicoSelecionado] = useState<tMecanico | null>(null);
+
     const statusOptions = [
         { label: "Todos", value: "todos" },
         { label: "Ativo", value: "ativo" },
         { label: "Inativo", value: "inativo" },
     ];
-    const [filtro, setFiltro] = useState("Todos");
-    const [modalOpen, setModalOpen] = useState(false);
 
     const bucarMecanicos = async () => {
         try {
-            const response = await fetch("http://localhost:8080/mecanicos");
+            const url = new URL("http://localhost:8080/mecanicos");
+            if (filtro.toLowerCase() !== "todos") {
+                url.searchParams.append('situacao', filtro.toUpperCase());
+            }
+
+            const response = await fetch(url.toString());
             if (!response.ok) {
                 throw new Error("Erro ao buscar mecânicos");
             }
@@ -39,35 +48,42 @@ export default function CadastroMecanico() {
         }
     };
 
+
     useEffect(() => {
+        setLoading(true);
         bucarMecanicos();
-    }, []);
 
+    }, [filtro]);
 
+    const mecanicosFiltrados = mecanicos.filter((mecanico) => {
+        const nomeMatch = mecanico.nome.toLowerCase().includes(buscarTexto.toLowerCase());
+        const statusMatch = filtro.toLowerCase() === "todos" || mecanico.situacao.toLowerCase() === filtro.toLowerCase();
+        return nomeMatch && statusMatch;
+    });
 
-    if (loading) {
-        return <Loading />;
-    }
+  
 
-    if (error) {
-        return <div className="loading">Erro: {error}</div>;
-    }
     return (
         <div className="cadastro-mecanico-container">
             <h1>Cadastro de Mecânicos</h1>
             <section className="cadastro-mecanico-header">
                 <SelectCustom options={statusOptions} value={filtro} onChange={setFiltro} />
                 <div className="cadastro-mecanico-buscar">
-                    <Button text="Cadastrar mecânico" icon={<UserPlus />} iconPosition="left" secondary onClick={() => setModalOpen(true)} />
+                    <Button text="Cadastrar mecânico" icon={<UserPlus />} iconPosition="left" secondary onClick={() => setModalCadastroOpen(true)} />
                     <div className="buscar-mecanico">
-                        <InputCustom name="buscar" value="" onChange={() => { }} type="text" placeholder="Buscar mecânico" />
-                        <Button text="Buscar" />
+                        <InputCustom
+                            name="buscar"
+                            value={buscarTexto}
+                            onChange={(e) => setBuscarTexto(e.target.value)}
+                            type="text"
+                            placeholder="Buscar mecânico"
+                        />
+
                     </div>
                 </div>
             </section>
 
             <div className="mecanico-table">
-
                 <table>
                     <thead>
                         <tr>
@@ -80,8 +96,14 @@ export default function CadastroMecanico() {
                         </tr>
                     </thead>
                     <tbody>
-                        {mecanicos.length > 0 ? (
-                            mecanicos.map((mecanico) => (
+                        {loading ? (
+                            <tr>
+                                <td colSpan={6}>
+                                    <Loading /> 
+                                </td>
+                            </tr>
+                        ) : mecanicosFiltrados.length > 0 ? (
+                            mecanicosFiltrados.map((mecanico) => (
                                 <tr key={mecanico.id}>
                                     <td>MEC-{String(mecanico.id).padStart(3, '0')}</td>
                                     <td>{mecanico.nome}</td>
@@ -89,7 +111,10 @@ export default function CadastroMecanico() {
                                     <td>{mecanico.email}</td>
                                     <td>{mecanico.situacao.charAt(0).toUpperCase() + mecanico.situacao.slice(1).toLowerCase()}</td>
                                     <td className="coluna-edit">
-                                        <button>
+                                        <button onClick={() => {
+                                            setMecanicoSelecionado(mecanico);
+                                            setModalEditarOpen(true);
+                                        }}>
                                             <Pencil className="edit" />
                                         </button>
                                     </td>
@@ -97,24 +122,40 @@ export default function CadastroMecanico() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={5}>Nenhum mecânico encontrado.</td>
+                              ({error}):<td colSpan={6}>Nenhum mecânico encontrado.</td>
                             </tr>
                         )}
                     </tbody>
+
+
                 </table>
             </div>
-            {modalOpen && (
+
+            {modalCadastroOpen && (
                 <ModalCadastroMecanico
-                    isOpen={modalOpen}
-                    onClose={() => {setModalOpen(false)}}
+                    isOpen={modalCadastroOpen}
+                    onClose={() => setModalCadastroOpen(false)}
                     onSucess={() => {
                         bucarMecanicos();
-                        setModalOpen(false); 
+                        setModalCadastroOpen(false);
                     }}
                 />
-
             )}
-
+            {modalEditarOpen && mecanicoSelecionado && (
+                <ModalEditarMecanico
+                    isOpen={modalEditarOpen}
+                    onClose={() => {
+                        setModalEditarOpen(false);
+                        setMecanicoSelecionado(null);
+                    }}
+                    mecanico={mecanicoSelecionado}
+                    onSucess={() => {
+                        bucarMecanicos();
+                        setModalEditarOpen(false);
+                        setMecanicoSelecionado(null);
+                    }}
+                />
+            )}
         </div>
     );
 }
